@@ -24,15 +24,7 @@ func Sqrt(x float64) (float64, error) {
 }
 
 func main() {
-  if _, err:= Sqrt(2); err != nil {
-    fmt.Println(err)
-  } else {
-    fmt.Println(Sqrt(2))  
-  }
-  if _, err:= Sqrt(-2); err != nil {
-    fmt.Println(err)
-  } else {
-    fmt.Println(Sqrt(-2))
-  }
+  fmt.Println(Sqrt(2))
+  fmt.Println(Sqrt(-2))
 }
 
