@@ -20,14 +20,14 @@ func main() {
   go func() {
     for {
       c1 <- "from 1"
-      time.Sleep(time.Second * 2)
+      // time.Sleep(time.Second * 2)
     }
   }()
 
   go func() {
     for {
       c2 <- "from 2"
-      time.Sleep(time.Second * 3) // stagger the sleep
+      // time.Sleep(time.Second * 3) // stagger the sleep.
     }
   }()
 
@@ -45,7 +45,9 @@ func main() {
         fmt.Println("timeout")
       default:
         // the default case happens immediately if none of the channels are
-        //  ready.
+        //  ready. The majority of messages will be the default case, as it is
+        //  continuously called until a message is in the channel to be 
+        //  processed.
         fmt.Println("Nothing ready.")
       }
     }
