@@ -18,6 +18,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
   // `io.WriteString` is a helper function to let you write a string into a 
   //    given writable stream. In Go, we call it the `io.Writer` interface.
+  //  So, we write "hello world" into the w writeable stream.
   io.WriteString(w, "Hello World!")
 
   fmt.Println(r) // print the http request
