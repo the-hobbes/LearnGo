@@ -12,7 +12,7 @@ message TestMessage {
     TypeY = 1;
     TypeZ = 2;
   }
-
+  // populated in the for loop,line 83
   message MsgItem {
     required int32 id = 1;
     optional string itemName = 2;
