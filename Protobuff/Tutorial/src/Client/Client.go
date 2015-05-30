@@ -1,4 +1,4 @@
-package ProtobufTest
+package main
 
 // Go TCP Client.
 // This client needs to:
@@ -15,6 +15,7 @@ import (
   "fmt"
   "os"
   "net"
+  "io"
   "strconv"
   "encoding/csv"
   "ProtobufTest"
@@ -131,7 +132,7 @@ func retrieveDataFromFile(fname *string)([]byte, error) {
 func sendDataToDest(data []byte, dest *string) {
   // takes dest as well as the array of serialized bytes then send them to a Go 
   //  TCP protobuf server.
-  conn, err := net.Dial("tcp", *dst) // create tcp connection to dest address
+  conn, err := net.Dial("tcp", *dest) // create tcp connection to dest address
   checkError(err)
   n, err := conn.Write(data) // write protobuf to that tcp connection
   checkError(err)
@@ -151,5 +152,5 @@ func main() {
   // see if there was an error with the data retrieval
   checkError(err)
   // send the read data to the destination location given
-  sendDatatoDest(data, dest)
+  sendDataToDest(data, dest)
 }

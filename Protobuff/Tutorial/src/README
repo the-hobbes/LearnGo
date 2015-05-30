@@ -1,0 +1,10 @@
+To run this, you want to do the following:
+
+- Start the server with:
+  go run Server/Server.go
+- Start the client, with:
+  go run Client/Client.go -f Client/input.csv
+
+Alternatively, send the server a bunch of messages with a for loop:
+for i in 1 2 3 4; do go run Client/Client.go -f Client/input.csv; done
+

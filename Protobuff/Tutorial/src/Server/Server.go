@@ -1,4 +1,4 @@
-package ProtobufTest
+package main
 
 // Go TCP Server.
 // This server needs to:
@@ -17,11 +17,14 @@ package ProtobufTest
 import (
   "fmt"
   "os"
+  "net"
   "strconv"
   "encoding/csv"
   "ProtobufTest"
   "github.com/golang/protobuf/proto"
 )
+
+const DestinationDirectory = "/Users/pheven/Programming/LearnGo/Protobuff/Tutorial/src/Server/"
 
 // TODO: make checkError package wide, so we don't write it twice.
 func checkError(err error) {
@@ -55,7 +58,7 @@ func handleProtoClient(conn net.Conn, c chan *ProtobufTest.TestMessage) {
   protodata := new(ProtobufTest.TestMessage) // see line 59 of ProtoTest.pb.go
 
   // Convert the data retrieved into the ProtobufTest.TestMessage struct type.
-  err := proto.Unmarshal(data[0:n], protodata)
+  err = proto.Unmarshal(data[0:n], protodata)
   checkError(err)
 
   // Push the protobuf message into a channel
@@ -77,16 +80,16 @@ func writeValuesTofile(datatowrite *ProtobufTest.TestMessage) {
   //  the default 64 bit int, so we can then pass it into Itoa() (which needs a
   //  64 bit integer) and convert it to a string.
   ClientID := strconv.Itoa(int(datatowrite.GetClientId())) 
-  ClientDescription := datatowrite.GetClientDescription()
+  ClientDescription := datatowrite.GetDescription()
 
   // Get the message items (a list) from that protobuf
-  items := datatowrite.GetMessageItems()
+  items := datatowrite.GetMessageitems()
 
   // Now write the data we've gotten to a CSV file
   fmt.Println("** Writing data to csv file... **")
 
   //Open file for writes, if the file does not exist then create it
-  file, err := os.OpenFile("CSVValues.csv", 
+  file, err := os.OpenFile(DestinationDirectory + "CSVValues.csv", 
                            os.O_RDWR|os.O_APPEND|os.O_CREATE, 0666)
   checkError(err)
   defer file.Close() // make sure the file gets closed on function exit
