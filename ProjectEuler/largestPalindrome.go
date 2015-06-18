@@ -32,17 +32,20 @@ func isPalindrome(n int) bool {
 }
 
 func findPalindrome(digits int) int {
-	var max1, max2 int
+	var max1, max2, upperBound int
 	if digits == 2 {
 		max1 = 99
-		max2 = 99		
+		max2 = 99
+		upperBound = 90	
 	} else {
 		max1 = 999
 		max2 = 999
+		upperBound = 900	
 	}
 
-	for i := max1; i > 0; i-- {
-		for j := max2; j > 0; j-- {
+	// http://stackoverflow.com/a/21287866/1440714
+	for i := max1; i > upperBound; i-- {
+		for j := max2; j > upperBound; j-- {
 			product := i * j
 			if isPalindrome(product) {
 				return product
