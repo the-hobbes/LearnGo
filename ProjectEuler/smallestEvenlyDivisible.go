@@ -49,6 +49,6 @@ func main() {
 		res = smallestEvenlyDivisible(maxNumber, start, stop)
 		fmt.Println(maxNumber) // how big of a number are we getting to?
 	}
-	fmt.Println("Solution is: ")
+	fmt.Println("Solution is: ") // 232792560
 	fmt.Println(res)
 }
