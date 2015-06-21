@@ -7,7 +7,7 @@ import (
 )
 
 func calculateNthPrime(n int) (nthPrime int64) {
-	counter := int64(2)
+	counter := int64(2) // start at 2
 	numberOfPrimes := 0
 	for {
 		i := big.NewInt(counter)
