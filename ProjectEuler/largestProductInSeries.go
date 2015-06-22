@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"io/ioutil"
-	// "strconv"
+	"strconv"
 )
 
 var INPUT string // input global var
@@ -22,10 +22,34 @@ func readInFile() string {
     return string(dat)
 }
 
+func nDigitProduct(start, size int) (int, []int){
+	digits := make([]int, size)
+	counter := 0
+	for i := 1; i <= len(digits); i++ {
+		fmt.Println(counter, i)
+		result, _ := strconv.Atoi(INPUT[ (start + counter) : (start + i)])
+		digits = append(digits, result)
+		counter = counter + 1
+	}
+
+	product := digits[0]
+	for j := 1; j <= len(digits); j++ {
+		product = product * digits[j]
+	}
+
+	return product, digits
+}
+
 func largestProduct(numAdjacentDigits int) (product int, adjacentDigits []int) {
-	numAdjacentDigits = -1
-	product = -1
-	adjacentDigits = make([]int,1)
+	max := 0
+	n := len(INPUT) - (numAdjacentDigits - 1)
+	for i := 0; i < n; i++ {
+		product, adjacentDigits = nDigitProduct(i, numAdjacentDigits)
+		if product > max {
+			max = product
+		}
+	}
+
 	return product, adjacentDigits
 }
 
