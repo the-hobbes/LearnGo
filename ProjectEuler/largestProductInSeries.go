@@ -83,7 +83,7 @@ func main() {
 	INPUT = readInFile()
 	test()
 
-	// n := 13
-	// productResult, adjacentDigitsResult := largestProduct(n)
-	// fmt.Println(productResult, adjacentDigitsResult)
+	n := 13
+	productResult, adjacentDigitsResult := largestProduct(n)
+	fmt.Println(productResult, adjacentDigitsResult)
 }
