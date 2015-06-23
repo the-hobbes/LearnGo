@@ -23,34 +23,35 @@ func readInFile() string {
 }
 
 func nDigitProduct(start, size int) (int, []int){
-	digits := make([]int, size)
+	var digits []int
 	counter := 0
-	for i := 1; i <= len(digits); i++ {
-		fmt.Println(counter, i)
+	
+	for i := 1; i <= size; i++ {
 		result, _ := strconv.Atoi(INPUT[ (start + counter) : (start + i)])
 		digits = append(digits, result)
 		counter = counter + 1
 	}
 
 	product := digits[0]
-	for j := 1; j <= len(digits); j++ {
+	for j := 1; j < size; j++ {
 		product = product * digits[j]
 	}
 
 	return product, digits
 }
 
-func largestProduct(numAdjacentDigits int) (product int, adjacentDigits []int) {
-	max := 0
-	n := len(INPUT) - (numAdjacentDigits - 1)
+func largestProduct(size int) (max int, adjacentDigits []int) {
+	max = 0
+	n := len(INPUT) - (size - 1)
 	for i := 0; i < n; i++ {
-		product, adjacentDigits = nDigitProduct(i, numAdjacentDigits)
+		product, digitSlice := nDigitProduct(i, size)
 		if product > max {
 			max = product
+			adjacentDigits = digitSlice
 		}
 	}
 
-	return product, adjacentDigits
+	return max, adjacentDigits
 }
 
 func test() {
@@ -81,4 +82,8 @@ func test() {
 func main() {
 	INPUT = readInFile()
 	test()
+
+	// n := 13
+	// productResult, adjacentDigitsResult := largestProduct(n)
+	// fmt.Println(productResult, adjacentDigitsResult)
 }
