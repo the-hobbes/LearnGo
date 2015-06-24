@@ -14,18 +14,21 @@ func sumSlice(input []int) int {
 }
 
 func subsetSum(candidates []int, target int, partial []int) []int {
+	fmt.Println("Got to subset sum")
 	s := sumSlice(partial)
 	if s == target {
 		fmt.Println("Target found, numbers are:")
 		fmt.Println(partial)
 	}
 	if s >= target {
-		return
+		fmt.Println(partial)
+		return []int{-1, -1, -1}
 	}
 	for i := 0; i < len(candidates); i++ {
 		n := candidates[i]
-		remaining := numbers[i+1:] // Golang slicing?
-		subsetSum(remaining, target, partial + [n]) // append instead of + [n]
+		remaining := candidates[i+1:] // Golang slicing?
+		partial = append(partial, n)
+		subsetSum(remaining, target, partial) // append instead of + [n]
 	}
 
 	return []int{-1, -1, -1}
@@ -35,7 +38,7 @@ func findTriplet(tripletSum int) ([]int) {
 	// given a number, find the pythagorean triplet the sum of which equals 
 	// that number. note that a < b < c.
 	var partial []int
-	candidates := []int{1,2,3,4,5,6,7,8,9,10}
+	candidates := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	result := subsetSum(candidates, tripletSum, partial)
 	
 	return result
