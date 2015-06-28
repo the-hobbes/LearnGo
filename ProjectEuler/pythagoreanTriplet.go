@@ -6,6 +6,7 @@ import (
 )
 
 func sumSlice(input []int) int {
+	// sum the numbers in a given int slice
 	total := 0
 	for _, value := range input {
 		total += value
@@ -13,35 +14,43 @@ func sumSlice(input []int) int {
 	return total
 }
 
-func subsetSum(candidates []int, target int, partial []int) []int {
-	fmt.Println("Got to subset sum")
+func generatePermutations(numbers []int, target int, partial []int) {
+	// generate all 3-number permutations of the numbers list.
+	// if the sum of a 3-number permutation == the target, 
+	// return the 3-number permutation.
 	s := sumSlice(partial)
 	if s == target {
 		fmt.Println("Target found, numbers are:")
 		fmt.Println(partial)
 	}
-	if s >= target {
-		fmt.Println(partial)
-		return []int{-1, -1, -1}
-	}
-	for i := 0; i < len(candidates); i++ {
-		n := candidates[i]
-		remaining := candidates[i+1:] // Golang slicing?
-		partial = append(partial, n)
-		subsetSum(remaining, target, partial) // append instead of + [n]
-	}
 
-	return []int{-1, -1, -1}
+	for i := 0; i < len(numbers); i++ {
+		n := numbers[i]
+		remaining := numbers[i+1:] // Golang slicing, i+1 to the end
+
+		// This is a horrible hack, necessary because of how slices
+		// work in Go. Explanation at the bottom of this file.
+
+		// make a new array of a size one larger than the current size
+		// of "partial"
+		newPartial := make([]int, len(partial) + 1)
+		// copy all of the original "partial" into the new array
+		copy(newPartial[0:len(partial)], partial[:])
+		// set the last element of the new array to be n
+		newPartial[len(newPartial)-1] = n
+		generatePermutations(remaining, target, newPartial)
+	}
 }
 
 func findTriplet(tripletSum int) ([]int) {
-	// given a number, find the pythagorean triplet the sum of which equals 
-	// that number. note that a < b < c.
+	// kind of a wrapper for permutation function
+	// given a number, find the pythagorean triplet such that its 
+	// sum equals the given number. note that a < b < c.
 	var partial []int
-	candidates := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	result := subsetSum(candidates, tripletSum, partial)
-	
-	return result
+	numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	// result := generatePermutations(numbers, tripletSum, partial)
+	generatePermutations(numbers, tripletSum, partial)
+	return nil
 }
 
 func test() {
@@ -60,5 +69,6 @@ func test() {
 }
 
 func main() {
-	test()
+	// test()
+	findTriplet(12)
 }
