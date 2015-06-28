@@ -103,7 +103,7 @@ func test() {
 }
 
 func main() {
-	// test()
+	test()
 	sliceResult := findTriplet(1000)
 	fmt.Println(sliceResult)
 	product := productSlice(sliceResult)
