@@ -9,12 +9,11 @@ import (
 	"math/big"
 )
 
-func primeGenerator() (chan int64) {
+func primeGenerator(upperBound int64) (chan int64) {
 	// generates a prime number, on demand and in order
 	channel := make(chan int64)
-	
 	go func() {
-		for currentPrime := int64(2); ; currentPrime++ {
+		for currentPrime := int64(2); ; currentPrime++{
 			i := big.NewInt(currentPrime)
 			if i.ProbablyPrime(4) == true {
 				channel <- currentPrime
@@ -25,12 +24,13 @@ func primeGenerator() (chan int64) {
 	return channel
 }
 
-func sumPrimes(n int) int {
+func sumPrimes(upperBound int64) int {
 	return -1
 }
 
 func test() {
-	result := sumPrimes(10)
+	upperBound := int64(10)
+	result := sumPrimes(upperBound)
 	expectedResult := 17
 	if result != expectedResult {
 		fmt.Fprintf(os.Stderr, 
@@ -43,9 +43,11 @@ func test() {
 
 func main() {
 	// test()
+	upperBound := int64(10)
+	generator := primeGenerator(upperBound)
 	for i := 0; i < 10; i++ {
-		res := <-primeGenerator() // TODO fix this
-		fmt.Println(res)
+		res := <-generator
+		fmt.Println(int(res))
 	}
 	
 }
