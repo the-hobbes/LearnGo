@@ -10,17 +10,9 @@ import (
 )
 
 func primeGenerator(upperBound int64) (chan int64) {
-	// generates a prime number, on demand and in order
+	// generates prime numbers on demand and fills a channel w/them
 	channel := make(chan int64)
-	// currentPrime := int64(2)
 	go func() {
-		// for currentPrime := int64(2); ; currentPrime++{
-		// 	i := big.NewInt(currentPrime)
-		// 	if i.ProbablyPrime(4) == true {
-		// 		channel <- currentPrime
-		// 		break
-		// 	}
-		// }
 		for currentPrime := 2; ; currentPrime++ {
 			i :=(big.NewInt(int64(currentPrime)))
 			if i.ProbablyPrime(4) == true {
@@ -31,14 +23,24 @@ func primeGenerator(upperBound int64) (chan int64) {
 	return channel
 }
 
-func sumPrimes(upperBound int64) int {
-	return -1
+func sumPrimes(upperBound int64) int64 {
+	// sums all primes found up to the upperBound
+	var runningTotal int64
+	generator := primeGenerator(upperBound)
+	for i := 0; i < 10; i++ {
+		foundPrime := <-generator
+		if foundPrime > upperBound {
+			break
+		}
+		runningTotal = runningTotal + foundPrime
+	}
+	return runningTotal
 }
 
 func test() {
 	upperBound := int64(10)
 	result := sumPrimes(upperBound)
-	expectedResult := 17
+	expectedResult := int64(17)
 	if result != expectedResult {
 		fmt.Fprintf(os.Stderr, 
 			"***Test failed*** \n Wanted: %i, Received: %i \n", 
@@ -49,15 +51,6 @@ func test() {
 }
 
 func main() {
-	// test()
-	upperBound := int64(10)
-	generator := primeGenerator(upperBound)
-	for i := 0; i < 10; i++ {
-		res := <-generator
-		if res > upperBound {
-			break
-		}
-		fmt.Println(int(res))
-	}
-	
+	test()
+	// upperBound := int64(10)
 }
