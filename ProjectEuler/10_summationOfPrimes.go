@@ -27,7 +27,7 @@ func sumPrimes(upperBound int64) int64 {
 	// sums all primes found up to the upperBound
 	var runningTotal int64
 	generator := primeGenerator(upperBound)
-	for i := 0; i < 10; i++ {
+	for i := int64(0); i < upperBound; i++ {
 		foundPrime := <-generator
 		if foundPrime > upperBound {
 			break
@@ -52,5 +52,6 @@ func test() {
 
 func main() {
 	test()
-	// upperBound := int64(10)
+	// r := sumPrimes(2000000)
+	// fmt.Println(r)
 }
