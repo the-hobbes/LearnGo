@@ -52,6 +52,6 @@ func test() {
 
 func main() {
 	test()
-	// r := sumPrimes(2000000)
-	// fmt.Println(r)
+	r := sumPrimes(2000000)
+	fmt.Println(r)
 }
