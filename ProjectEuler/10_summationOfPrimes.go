@@ -28,6 +28,7 @@ func sumPrimes(upperBound int64) int64 {
 	var runningTotal int64
 	generator := primeGenerator(upperBound)
 	for i := int64(0); i < upperBound; i++ {
+		// pull upperBound primes from the channel
 		foundPrime := <-generator
 		if foundPrime > upperBound {
 			break
