@@ -7,10 +7,38 @@ func productInGivenDirection() {
 	return
 }
 
-func calculateProduct() {
+func calculateProduct(grid [20][20]int) int {
 	// process the grid in chunks of 4 numbers, horizontally, vertically and
 	// diagonally. 
-	return
+	largest := 0
+	for x := 0; x < 20; x++ {
+		for y := 0; y < 17; y++ {
+			horizontal := grid[x][y] * grid[x][y+1] * grid[x][y+2] * grid[x][y+3]
+			if  horizontal > largest {
+				largest = horizontal
+			}
+			vertical := grid[y][x] * grid[y+1][x] * grid[y+2][x] * grid[y+3][x]
+			if vertical > largest {
+				largest = vertical
+			}
+		}
+	}
+
+	for r := 0; r < 17; r++ {
+		for t := 0; t < 17; t++ {
+			right_diagonal := grid[t][0+r] * grid[t+1][1+r] * grid[t+2][2+r] * grid[t+3][3+r]
+			left_diagonal := grid[t][3+r] * grid[t+1][2+r] * grid[t+2][1+r] * grid[t+3][r]
+
+			if right_diagonal > largest {
+				largest = right_diagonal
+			}
+			if left_diagonal > largest {
+				largest = left_diagonal
+			}
+
+		}
+	}
+	return largest
 }
 
 func main() {
@@ -39,5 +67,7 @@ func main() {
 		[...]int{20,73,35,29,78,31,90,1,74,31,49,71,48,86,81,16,23,57,5,54},
 		[...]int{1,70,54,71,83,51,54,69,16,92,33,48,61,43,52,1,89,19,67,48}, 
 	}
-	fmt.Println(grid[0][0])
+
+	answer := calculateProduct(grid)
+	fmt.Println(answer)
 }
