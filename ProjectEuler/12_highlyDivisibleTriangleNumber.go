@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"math"
 )
 
 func triangleNumberGenerator() (chan int) {
@@ -12,19 +13,40 @@ func triangleNumberGenerator() (chan int) {
 	// by adding the natural numbers.
 	channel := make(chan int)
 	go func() {
-		for start := 1; ; start++ {
-			nextTriangle := start + start + 1
+		for current := 1; ; current++ {
+			nextTriangle := 0
+			for i := current; i > 0; i-- {
+				nextTriangle = nextTriangle + i
+			}
 			channel <- nextTriangle
 		}
 	}()
 	return channel
 }
 
-func calculateDivisors(targetDivisors int) (triangleNumber int) {
+func calculateDivisors(targetDivisors int) int {
 	// Pull a triangle number from triangeNumberGenerators().
 	// Factor it.
 	// If the number of factors it has is > targetDivisors, return it.
-	return
+	// TODO(pheven): Implement this. I havent solved 12 yet!
+	generator := triangleNumberGenerator()
+	result :=  -1
+	for {
+		x := <-generator
+		fmt.Println("Current Triangle:", x)
+		factorsOfx := 0
+		for i := 1; i <= x; i++ {
+			// if x is evenly divisible by i, i is a factor of x.
+			if math.Mod(float64(x), float64(i)) == 0 {
+				factorsOfx++
+			}
+		}
+		if factorsOfx >= targetDivisors {
+			result = x
+			break
+		}
+	}
+	return result
 }
 
 func test() {
@@ -42,12 +64,7 @@ func test() {
 }
 
 func main() {
-	// test()
-	// result := calculateDivisors(500)
-	// fmt.Println(result)
-	generator := triangleNumberGenerator()
-	for i := 0; i < 10; i++ {
-		x := <-generator
-		fmt.Println(x)
-	}
+	test()
+	result := calculateDivisors(500)
+	fmt.Println(result)
 }
