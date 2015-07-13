@@ -4,7 +4,10 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"bufio"
+	"os"
+	"log"
+	"strconv"
 )
 
 var INPUT string // input global var
@@ -15,21 +18,32 @@ func check(e error) {
     }
 }
 
-func readInFile() string {
-	// TODO(pheven): we will want to process the file line by line, so
-	// use the following to dothat instead of reading the whole thing in 
-	// at once: http://stackoverflow.com/questions/8757389/reading-file-line-by-line-in-go
-	dat, err := ioutil.ReadFile("largeSumInput")
-    check(err)
-
-    return string(dat)
+func castToIntArray(target string) []int {
+	// used to convert a string of integers to an array of actual integers
+	// i, _ := strconv.Atoi(scanner.Text())
 }
 
 func largeSum() {
-	return
+	// use a scanner to read in a file, line by line
+	file, err := os.Open("largeSumInput")
+    check(err)
+    defer file.Close()
+    
+    scanner := bufio.NewScanner(file)
+    for scanner.Scan() {
+	    // fmt.Println(scanner.Text())
+	    // cast string to int
+	    arr := castToIntArray(scanner.Text())
+	    // sort the arr
+	    // sum the 11 most significant digits (easy w/sorting)
+	    // http://math.stackexchange.com/questions/184397/10-most-significant-digits-of-the-sum-of-a-100-50-digit-numbers
+	}
+
+	if err := scanner.Err(); err != nil {
+	    log.Fatal(err)
+	}
 }
 
 func main() {
-	r := largeSum()
-	fmt.Println(r)
+	largeSum()
 }
