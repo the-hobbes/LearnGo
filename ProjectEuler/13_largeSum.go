@@ -7,9 +7,7 @@ import (
 	"bufio"
 	"os"
 	"log"
-	"strings"
 	"strconv"
-	"sort"
 )
 
 var INPUT string // input global var
@@ -20,49 +18,39 @@ func check(e error) {
     }
 }
 
-func castToIntArray(target string) []int {
-	// used to convert a string of integers to an array of actual integers
-	// i, _ := strconv.Atoi(scanner.Text())
-	splitString := strings.Split(target, "")
-	arr := make([]int, len(splitString))
-	for i := 0; i < len(splitString); i++ {
-		s, err := strconv.Atoi(splitString[i])
-		check(err)
-		arr[i] = s
-	}
-	return arr
+func getFirst11(target string) int {
+	// get the 11 most significant digits in a string, and 
+	// convert that string to an integer. 
+	s := target[0:12]
+	i, err := strconv.Atoi(s)
+	check(err)
+	return i
 }
 
-func largeSum() {
+func largeSum() string {
 	// use a scanner to read in a file, line by line
 	file, err := os.Open("largeSumInput")
     check(err)
     defer file.Close()
-    totalSum := 0
-
+    sum := 0
     scanner := bufio.NewScanner(file)
     for scanner.Scan() {
-	    // fmt.Println(scanner.Text())
 	    // cast string to int array
-	    arr := castToIntArray(scanner.Text())
-	    // sort the array
-	    sort.Sort(sort.Reverse(sort.IntSlice(arr)))
-	    fmt.Println(arr)
-	    // sum the 11 most significant digits (easy w/sorting)
-	    sum := 0
-	    for i := 0; i < 11; i++ {
-	    	sum = sum + arr[i]
-	    }
-	    totalSum = totalSum + sum
-	    fmt.Println(totalSum)
+	    eleven := getFirst11(scanner.Text())
+	    // sum each of the 11 most significant digits of each line
+	    sum = sum + eleven
 	    // http://math.stackexchange.com/questions/184397/10-most-significant-digits-of-the-sum-of-a-100-50-digit-numbers
 	}
 
 	if err := scanner.Err(); err != nil {
 	    log.Fatal(err)
 	}
+	// as per the problem, we only want the top 10 digits
+	strsum := strconv.Itoa(sum)
+	return strsum[0:10]
 }
 
 func main() {
-	largeSum()
+	result := largeSum()
+	fmt.Println(result)
 }
