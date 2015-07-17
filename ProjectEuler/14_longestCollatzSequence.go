@@ -9,6 +9,7 @@ import (
 )
 
 func isEven(n int) bool {
+	// test if a number is even
 	if math.Mod(float64(n), 2) == 0 {
 		return true
 	}
@@ -16,6 +17,7 @@ func isEven(n int) bool {
 }
 
 func generateChain(start int) int {
+	// generate a single chain and return its length
 	current := start
 	length := 1
 	for {
@@ -33,14 +35,24 @@ func generateChain(start int) int {
 	return length
 }
 
-func longestChain() {
+func longestChain(start int) {
 	// generate many chains, looking for the longest
-	return
+	chainRoot := 0
+	longest := 0
+	for i := start; i > 0; i-- {
+		l := generateChain(i)
+		// fmt.Println(i, ":", l)
+		if l > longest {
+			longest = l
+			chainRoot = i
+		}
+	}
+	fmt.Println("Chain root:", chainRoot, "length:", longest)
 }
 
 func test() {
-	result := generateChain(13)
-	expectedResult := 10
+	result := generateChain(13) 
+	expectedResult := 10 // the length of chain starting from 13
 
 	if result != expectedResult {
 		fmt.Fprintf(os.Stderr, 
@@ -54,4 +66,5 @@ func test() {
 
 func main() {
 	test()
+	longestChain(1000000)
 }
